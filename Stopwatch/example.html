@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Stop Watch - Web Component</title>
+        <script src="Stopwatch.js"></script>
+        <style>
+            :host {
+                font-size: 1.2rem;
+            }
+            .timer {
+                background-color: #233237;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="timer">
+            <stopwatch-timer
+                    label="LABEL"
+                    initialtime="00:01:00"
+                    autostart
+            ></stopwatch-timer>    
+        </div>
+    </body>
+    <script>
+        const stopWatchComponent = document.querySelector('stopwatch-timer');
+        stopWatchComponent.addEventListener('stopWatchEnd', () => {
+            console.log('FIM')
+        })
+        stopWatchComponent.addEventListener('stopWatchPaused', () => {
+            console.log('Em Pausa')
+        })
+    </script>
+
+</html>
