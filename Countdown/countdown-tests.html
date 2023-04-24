@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timer Web Component</title>
+    <script src="Countdown.js"></script>
+    <style>
+        :host {
+            /*display: inline-block;*/
+            font-size: 1.2rem;
+        }
+        .btn-row {
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 300px;">
+<!--        <countdown-timer-->
+<!--                id="cd"-->
+<!--        ></countdown-timer>-->
+        <countdown-timer
+                id="cd"
+                duration="20"
+                initialtime="10"
+                gaugediameter="150"
+                loader
+                loadertimer="20"
+        ></countdown-timer>
+    </div>
+    <div style="width: 300px;" >
+        <div class="btn-row">
+            <button type="button" id="start">Start</button>
+            <button type="button" id="stop">Stop</button>
+            <button type="button" id="reset">Reset</button>
+        </div>
+        <div class="btn-row">
+            <button type="button" id="startLoader">Start Loader</button>
+            <button type="button" id="stopLoader">Stop Loader</button>
+        </div>
+        <div class="btn-row">
+            <button type="button" id="TEST" onclick="CountdownMgr.setOnCountdownEndHandler('cd', () => console.log('EU REKA'));">TESTE</button>
+        </div>
+    </div>
+</body>
+
+<script>
+    const countdownComponent = document.querySelector('countdown-timer');
+    const startBtn = document.querySelector('#start');
+    const stopBtn = document.querySelector('#stop');
+    const resetBtn = document.querySelector('#reset');
+
+    const startLoaderBtn = document.querySelector('#startLoader');
+    const stopLoaderBtn = document.querySelector('#stopLoader');
+    
+    const startPauseBtn = () => {
+        if (startBtn.hasAttribute('data-pause')){
+            startBtn.textContent = 'Start';
+            startBtn.removeAttribute('data-pause')
+        }
+    }
+    
+    startBtn.addEventListener('click', () => {
+        if (startBtn.hasAttribute('data-pause')){
+            startBtn.textContent = 'Start';
+            startBtn.removeAttribute('data-pause')
+            countdownComponent.pause();
+        } else {
+            startBtn.textContent = 'Pause';
+            startBtn.setAttribute('data-pause', '');
+            countdownComponent.start();    
+        }
+    });
+    stopBtn.addEventListener('click', () => {
+        startPauseBtn()
+        countdownComponent.stop();
+    });
+    resetBtn.addEventListener('click', () => {
+        startPauseBtn()
+        countdownComponent.reset();
+    });
+    countdownComponent.addEventListener('countdownEnd', () => {
+        startPauseBtn()
+        console.log('FIM')
+    })
+    
+    startLoaderBtn.addEventListener('click', () => {
+        countdownComponent.startLoader();
+    });
+    stopLoaderBtn.addEventListener('click', () => {
+        countdownComponent.stopLoader();
+    });
+    countdownComponent.addEventListener('loaderEnded', () => {
+        console.log('FIM DO LOADER')
+    })
+    
+</script>
+
+
+</html>
