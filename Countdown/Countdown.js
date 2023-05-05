@@ -169,6 +169,16 @@ class Countdown extends HTMLElement {
         }
     }
 
+    get darkmode() {
+        return this.displaySettings.darkmode;
+    }
+    set darkmode(value) {
+        if (typeof(value) === "boolean") {
+            this.displaySettings.darkmode = value;
+            this.#applyColors();
+        }
+    }
+
     connectedCallback() {
         this.durationCounter = (!this.initialtime) ? this.duration: this.initialtime;
         this.countdown.textContent = this.durationCounter;
@@ -176,17 +186,17 @@ class Countdown extends HTMLElement {
         const svg = this.shadowRoot.querySelector('svg');
         this.#updateSVGSize(svg);
 
-        this.#applyColors(svg);
+        this.#applyColors();
         this.#updateCountdown();
     }
-    
+
     disconnectedCallback() {
         clearInterval(this.timerId);
         clearInterval(this.loaderTimerId);
     }
-    
+
     static get observedAttributes() {
-        return ['duration', 'initialtime','gaugediameter','gaugecolor', 'textcolor', 'loader', 'loadertimer'];
+        return ['duration', 'initialtime','gaugediameter','gaugecolor', 'textcolor', 'loader', 'loadertimer', 'darkmode'];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -197,32 +207,34 @@ class Countdown extends HTMLElement {
                     this.#updateCountdown();
                 }
                 break;
-                
+
             case 'initialtime':
                 if (newValue !== oldValue) {
                     this.initialtime = newValue
                 }
                 break;
-                
+
             case 'gaugediameter':
                 this.gaugediameter = newValue;
                 break;
-                
+
             case 'gaugecolor':
                 this.gaugecolor = newValue;
                 break;
-                
+
             case 'textcolor':
                 this.textcolor = newValue;
                 break;
             case 'loader':
                 this.loader = (newValue !== null);
-                break; 
+                break;
             case 'loadertimer':
                 if (newValue !== oldValue) {
                     this.loadertimer = newValue;
                 }
                 break;
+            case 'darkmode':
+                this.darkmode = (newValue !== null);
         }
     }
 
@@ -274,10 +286,14 @@ class Countdown extends HTMLElement {
         this.#updateCountdown();
     }
 
-    #applyColors(svg) {
+    #applyColors() {
+        if(this.darkmode){
+            this.circles.setAttribute('stroke', '#ffffff');
+            this.countdown.setAttribute('fill', '#ffffff');
+            return
+        }
         this.circles.setAttribute('stroke', this.gaugecolor);
         this.countdown.setAttribute('fill', this.textcolor);
-        
     }
     
     #updateCountdown(duration = this.clock.durationCounter) {

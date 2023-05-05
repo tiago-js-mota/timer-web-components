@@ -217,8 +217,8 @@ class Stopwatch extends HTMLElement {
     
     connectedCallback() {
         this.#applyColors();
-        this.playBtn.addEventListener('click', () => this.#handleStartPause())
-        this.pauseBtn.addEventListener('click', () => this.#handleStartPause())
+        this.playBtn.addEventListener('click', () => this.handleStartPause())
+        this.pauseBtn.addEventListener('click', () => this.handleStartPause())
         this.stopBtn.addEventListener('click', () => this.stop())
 
         this.pauseBtn.style.visibility = 'hidden';
@@ -228,8 +228,8 @@ class Stopwatch extends HTMLElement {
     }
     
     disconnectedCallback() {
-        this.playBtn.removeEventListener('click', () => this.#handleStartPause())
-        this.pauseBtn.removeEventListener('click', () => this.#handleStartPause())
+        this.playBtn.removeEventListener('click', () => this.handleStartPause())
+        this.pauseBtn.removeEventListener('click', () => this.handleStartPause())
         this.stopBtn.removeEventListener('click', () => this.stop())
 
         clearInterval(this.timerId);
@@ -291,11 +291,14 @@ class Stopwatch extends HTMLElement {
             this.#updateElapsedTime();
         }, 1000);
         this.clockSettings.paused = false;
+        this.#showPauseBtn();
+        this.dispatchEvent(new CustomEvent('stopWatchStarted'))
     }
     pause(){
         clearInterval(this.clockSettings.timerIntervalId);
         this.clockSettings.timerIntervalId = null;
         this.clockSettings.paused = true;
+        this.#showPlayBtn();
         this.dispatchEvent(new CustomEvent('stopWatchPaused'))
     }
     
@@ -308,14 +311,8 @@ class Stopwatch extends HTMLElement {
         this.pauseBtn.style.visibility = 'visible';
     }
     
-    #handleStartPause() {
-        if(this.clockSettings.paused) {
-            this.start()
-            this.#showPauseBtn();
-        } else {
-            this.pause();
-            this.#showPlayBtn();
-        }
+    handleStartPause() {
+        this.clockSettings.paused? this.start():this.pause();
     }
 
     stop() {
@@ -410,6 +407,8 @@ class Stopwatch extends HTMLElement {
         this.#changeStopButtonColor();
     }
     #changeToDarkmodeColors() {
+        const box = this.shadowRoot.querySelector('.box');
+        box.style.borderColor = this.darkmode ? "#FFFFFF" : "#000000";
         this.timercolor = this.darkmode ? "#FFFFFF" : "#000000";
     }
     #changePlayButtonColor(){

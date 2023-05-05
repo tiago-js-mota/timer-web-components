@@ -14,22 +14,26 @@ this web component was developed to only work with seconds
 * **loader**: the attribute, if present, it will mimic a loader animation after the countdown ends. The numbers are hidden and will circle through
     the animation indefinitely.
 * **loadertimer**: duration in seconds of the loader animation. If not defined a default duration of 60 seconds is used
+* **darkmode**: the attribute, if present, it will change the all the colors to white
 
 ## HOW TO USE IT:
 ### EXAMPLES:
 * **Countdown with default colors with a defined duration of 60 seconds**
 
-`<countdown-timer duration="60"></countdown-timer>`
+    <countdown-timer duration="60">
+    </countdown-timer>
 
-  * **Countdown with custom colors, with a defined duration of 60 seconds but the component will be loaded with 30
+* **Countdown with custom colors, with a defined duration of 60 seconds but the component will be loaded with 30
 seconds defined by the attribute initialtime.**
 
-`<countdown-timer
-  duration="60"
-  initialtime="30"
-  gaugediameter="150"
-  gaugecolor="#c4c400"
-  textcolor="#fff"></countdown-timer>`
+
+    <countdown-timer
+        duration="60"
+        initialtime="30"
+        gaugediameter="150"
+        gaugecolor="#c4c400"
+        textcolor="#fff">
+    </countdown-timer>
 
 * **Countdown with a defined duration of 10 seconds    **  
 
@@ -40,7 +44,8 @@ seconds defined by the attribute initialtime.**
 
 `<countdown-timer
    duration="10"
-   loader></countdown-timer>`
+   loader
+darkmode></countdown-timer>`
 
 ### AVAILABLE FUNCTIONS:
 * **start()**: start countdown

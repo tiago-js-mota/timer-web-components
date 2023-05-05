@@ -22,21 +22,23 @@
 
 ## HOW TO USE IT:
 ### EXAMPLES:
-<stopwatch-timer 
-    label="LABEL"
-    labelcolor="#ccc"
-    initialtime="00:01:00"
-    autostart>
-</stopwatch-timer>
+    <stopwatch-timer 
+        label="LABEL"
+        labelcolor="#ccc"
+        initialtime="00:01:00"
+        autostart>
+    </stopwatch-timer>
 
 
 
 ### AVAILABLE FUNCTIONS:
 * **start()**: start timer from 00:00:00 or from the time in the attribute initialtime;
 * **pause()**: pause timer
+* **handleStartPause()**: facilitator for start and pause
 * **stop()**: timer ends, the clock will be set to 00:00:00
 
 ### CUSTOME EVENTS
+* **stopWatchStarted**: Triggered when the start button is pressed or the start() function is executed
 * **stopWatchEnd**: Triggered when the stop button is pressed or the stop() function is executed
 * **stopWatchPaused**: Triggered when the pause button is pressed or the pause() function is executed
 
